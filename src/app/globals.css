@@ -74,3 +74,18 @@
       @apply bg-background text-foreground;
     }
   }
+
+  .shadow-3d {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 
+                0 10px 15px rgba(0, 0, 0, 0.1), 
+                0 20px 25px rgba(0, 0, 0, 0.1), 
+                0 30px 35px rgba(0, 0, 0, 0.1);
+  }
+
+.scroll-hidden {
+  scrollbar-width: none; 
+}
+
+.scroll-hidden::-webkit-scrollbar {
+  display: none; 
+}
