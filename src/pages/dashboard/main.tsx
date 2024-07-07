@@ -2,7 +2,7 @@ import React from 'react'
 
 const Main = () => {
     return (
-        <section className=''>main</section>
+        <section className='py-8 px-8'>main</section>
     )
 }
 

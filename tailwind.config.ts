@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      boxShadow: {
+        'custom-top-right-bottom': '0px -4px 4px rgba(0, 0, 0, 0.1), 4px 0px 4px rgba(0, 0, 0, 0.1), 0px 4px 4px rgba(0, 0, 0, 0.1)',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -60,6 +63,7 @@ const config = {
           blue: "#6FAEFC",
           green: "#ADD359",
           pink: "#DE6EC6",
+          semiBlack:"#F2F2F2"
         },
       },
       borderRadius: {
