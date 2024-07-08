@@ -12,7 +12,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             />
             </aside>
             <section className="w-3/5 h-full overflow-y-auto scroll-hidden">{children}</section>
-            <aside className="w-1/5 h-full overflow-y-auto scroll-hidden"><Challenges /></aside>
+            <aside className="w-1/5 overflow-y-auto scroll-hidden h-full"><Challenges /></aside>
         </main>
     );
 }

@@ -63,7 +63,7 @@ const config = {
           blue: "#6FAEFC",
           green: "#ADD359",
           pink: "#DE6EC6",
-          semiBlack:"#F2F2F2"
+          semiBlack:"#4D4D4D"
         },
       },
       borderRadius: {
