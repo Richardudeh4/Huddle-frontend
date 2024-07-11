@@ -1,7 +1,7 @@
 import React from 'react';
 import { Star } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import ChallengeCard from '@/pages/dashboard/challenge-card';
+import ChallengeCard from '@/components/pages/dashboard/challenge-card';
 import { Card } from '../ui/card';
 
 

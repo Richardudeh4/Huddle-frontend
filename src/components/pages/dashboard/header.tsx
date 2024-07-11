@@ -17,7 +17,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ name, isInWorkroom, teamName, companyName }) => {
   return (
     <header>
-      <Card className={`border-0 p-0 bg-custom-whitesmoke flex flex-col md:flex-row items-end ${!isInWorkroom ? 'justify-between' : 'justify-start'} shadow-none`}>
+      <Card className={`border-0 p-0 bg-custom-whitesmoke  flex flex-col md:flex-row items-end ${!isInWorkroom ? 'justify-between gap-0' : 'justify-start gap-10'} shadow-none`}>
         <CardHeader className='p-0'>
           <p className={`text-md text-custom-semiBlack ${isInWorkroom ? 'font-bold' : 'font-semibold'}`}>
             {!isInWorkroom ? formatDate() : companyName}

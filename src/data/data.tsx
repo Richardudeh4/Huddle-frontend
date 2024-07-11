@@ -1,5 +1,5 @@
 import { LayoutDashboard, WorkflowIcon, Group, Star, Joystick, LogOut } from 'lucide-react';
-import { SidebarItem, StatsCardProps, TaskTodayProps } from "../lib/@types";
+import { SidebarItem, StatsCardProps, TaskTodayProps, TopRanksProps } from "../lib/@types";
 import leader from "@/assets/leader.svg";
 import teamplayer from "@/assets/teamplayer.svg";
 import workaholic from "@/assets/workaholic.svg";
@@ -75,5 +75,44 @@ export const tasksData: TaskTodayProps[] = [
     title: "Code review and merge pull requests",
     time: "3:00pm",
     points: 7,
+  },
+];
+
+export const topRanksData: TopRanksProps[] = [
+  {
+    rank: 1,
+    name: "Gregory Michael",
+    tools: "Photoshop | Figma | VS Code",
+    timeSpent: "10 hrs :30m",
+  },
+  {
+    rank: 2,
+    name: "Sophia Johnson",
+    tools: "Illustrator | Sketch | WebStorm",
+    timeSpent: "9 hrs :15m",
+  },
+  {
+    rank: 3,
+    name: "Michael Brown",
+    tools: "After Effects | Figma | Sublime Text",
+    timeSpent: "8 hrs :50m",
+  },
+  {
+    rank: 4,
+    name: "Emily Davis",
+    tools: "Premiere Pro | Figma | Atom",
+    timeSpent: "7 hrs :45m",
+  },
+  {
+    rank: 5,
+    name: "James Wilson",
+    tools: "Lightroom | Figma | Brackets",
+    timeSpent: "7 hrs :30m",
+  },
+  {
+    rank: 6,
+    name: "Olivia Martinez",
+    tools: "InDesign | Figma | Notepad++",
+    timeSpent: "6 hrs :20m",
   },
 ];

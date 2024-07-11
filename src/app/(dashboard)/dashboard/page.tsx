@@ -1,10 +1,10 @@
-import Main from "@/pages/dashboard/main";
+import PageDashboard from "@/components/pages/dashboard";
 
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
     return (
         <main>
-            <Main />
+            <PageDashboard />
         </main>
     )
 }

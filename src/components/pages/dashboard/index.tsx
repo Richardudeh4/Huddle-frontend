@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from './Header';
+import Header from './header';
 import ProductivitySection from './productivity-section';
 import StatsCard from './stats-card';
 import { statsCardsData, tasksData } from '@/data/data';
@@ -15,7 +15,7 @@ import TodaysTask from './todays-task';
 
 
 
-const Main: React.FC = () => {
+const PageDashboard: React.FC = () => {
     return (
         <section className='pt-8 pb-10 px-12'>
             <Header
@@ -41,7 +41,7 @@ const Main: React.FC = () => {
                 </div>
 
                 <div className='mt-10 flex justify-between items-center'>
-                    <h1 className='font-bold text-slate-600 text-xl'>Weekly Stats</h1>
+                    <h1 className='font-bold text-slate-600 text-xl'>Today's task</h1>
                     <SlidersHorizontal size={18} color='#D9D9D9' className='cursor-pointer' />
                 </div>
                 <Card className='mt-5 p-4 border-none max-h-60 overflow-y-auto'>
@@ -54,4 +54,4 @@ const Main: React.FC = () => {
     )
 }
 
-export default Main;
+export default PageDashboard;
