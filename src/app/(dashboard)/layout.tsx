@@ -5,11 +5,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     return (
         <main className="bg-custom-whitesmoke w-full flex h-screen">
             <aside className="w-1/5 h-full overflow-y-auto scroll-hidden">
-            <Sidebar
-                name="Esther Howard"
-                email="mitchell.rivera@example.com"
-                online={!false}
-            />
+                <Sidebar
+                    name="Esther Howard"
+                    email="mitchell.rivera@example.com"
+                    online={!false}
+                />
             </aside>
             <section className="w-3/5 h-full overflow-y-auto scroll-hidden">{children}</section>
             <aside className="w-1/5 overflow-y-auto scroll-hidden h-full"><Challenges /></aside>

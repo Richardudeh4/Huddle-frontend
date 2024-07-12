@@ -1,7 +1,6 @@
 import { Card } from '@/components/ui/card';
 import React from 'react';
 import TopRankingCard from './top-ranking-card';
-import { Separator } from '@radix-ui/react-separator';
 import { topRanksData } from '@/data/data';
 
 
