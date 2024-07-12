@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
-import chess from "@/assets/chess.svg";
 import { Clock4, Zap } from 'lucide-react';
 import { TimeLogCardContentProps } from "@/lib/@types";
 
@@ -25,9 +24,9 @@ const TimeLogCardContent: React.FC<TimeLogCardContentProps> = ({ description, ic
 
 const ProductivityBadge: React.FC = () => {
     return (
-        <Card className='border-none rounded-md p-4 h-full'>
+        <Card className='border-none rounded-md p-4 h-full shadow-3d'>
             <CardContent className='p-0 flex items-center gap-5'>
-                <Image src={chess} alt='chess' />
+                <Image src={"/assets/chess.svg"} alt='chess' width={30} height={30} />
                 <div>
                     <CardTitle className='text-xl font-semibold text-custom-semiBlack p-0'>
                         80% <span className='font-bold'>productive</span>
@@ -43,7 +42,7 @@ const ProductivityBadge: React.FC = () => {
 
 const DailyTimeLog: React.FC = () => {
     return (
-        <Card className='border-none rounded-md p-4 grid grid-cols-3 h-full'>
+        <Card className='border-none rounded-md p-4 grid grid-cols-3 h-full shadow-3d'>
             <TimeLogCardContent
                 description="Your points"
                 icon={Zap}
@@ -66,7 +65,7 @@ const DailyTimeLog: React.FC = () => {
 
 const ProductivitySection: React.FC = () => {
     return (
-        <Card className='grid gap-6 grid-cols-9 mt-3 rounded-none border-none shadow-none bg-custom-whitesmoke'>
+        <Card className='grid gap-6 grid-cols-9 mt-3 rounded-none border-none shadow-none'>
             <div className="col-span-3">
                 <ProductivityBadge />
             </div>

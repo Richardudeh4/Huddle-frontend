@@ -1,5 +1,4 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import { TopRanksProps } from '@/lib/@types';
 import { Clock4 } from 'lucide-react';
 import React from 'react';
@@ -7,7 +6,7 @@ CardContent
 
 const TopRankingCard: React.FC<TopRanksProps> = ({ rank, name, tools, timeSpent }) => {
     return (
-        <Card className='flex gap-8 items-center justify-between border-none shadow-none'>
+        <Card className={`flex gap-8 items-center ${rank === 1 || rank === 2 || rank === 3 ? 'justify-between' : 'justify-end'} border-none shadow-none`}>
             <div className='flex items-center justify-center gap-3'>
                 <CardHeader className='bg-slate-300 font-extrabold rounded-full text-xl text-center grid place-content-center p-4 w-10 h-10'>{rank}</CardHeader>
                 {(rank === 1 || rank === 2 || rank === 3) && (
@@ -17,7 +16,7 @@ const TopRankingCard: React.FC<TopRanksProps> = ({ rank, name, tools, timeSpent 
                     ></span>
                 )}
             </div>
-            <CardContent className='bg-[#e8e0f4] w-full rounded-3xl space-y-2 py-2 px-20 h-fit'>
+            <CardContent className={`bg-[#e8e0f4] ${rank === 1 || rank === 2 || rank === 3 ? 'w-full' : 'w-[90%]'} rounded-3xl space-y-2 py-1 px-20 h-fit`}>
                 <CardTitle className=''>{name}</CardTitle>
                 <div className='flex items-center justify-between'>
                     <CardDescription className='flex items-center gap-2'><Clock4 size={18} /><span>Tools used: {tools}</span></CardDescription>

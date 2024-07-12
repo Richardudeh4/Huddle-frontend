@@ -1,43 +1,63 @@
 import { LayoutDashboard, WorkflowIcon, Group, Star, Joystick, LogOut } from 'lucide-react';
-import { SidebarItem, StatsCardProps, TaskTodayProps, TopRanksProps } from "../lib/@types";
-import leader from "@/assets/leader.svg";
-import teamplayer from "@/assets/teamplayer.svg";
-import workaholic from "@/assets/workaholic.svg";
-import slacker from "@/assets/slacker.svg";
+import {StatsCardProps, TaskTodayProps, TopRanksProps } from "../lib/@types";
 
-export const sidebarLinks: SidebarItem[] = [
-  { icon: LayoutDashboard, href: '/dashboard', label: 'Your Dashboard' },
-  { icon: WorkflowIcon, href: '/workroom', label: 'Workroom' },
-  { icon: Group, href: '/your-team', label: 'Your team' },
-  { icon: Star, href: '/leaderboards', label: 'Leaderboards' },
-  { icon: Joystick, href: '/your-task', label: 'Your task' },
-  { icon: LogOut, href: '#', label: 'Clock out' },
+
+export const sideLinks = [
+  {
+    url: "/dashboard",
+    text: "Your dashboard",
+    icon: "/assets/home.svg",
+  },
+  {
+    url: "/workroom",
+    text: "Workroom",
+    icon: "/assets/workroom.svg",
+  },
+  {
+    url: "/your-team",
+    text: "Your team",
+    icon: "/assets/your-team.svg",
+  },
+  {
+    url: "/leaderboards",
+    text: "Leaderboards",
+    icon: "/assets/leaderboards.svg",
+  },
+  {
+    url: "/your-tasks",
+    text: "Your tasks",
+    icon: "/assets/your-task.svg",
+  },
+  {
+    url: "/",
+    text: "Clock out",
+    icon: "/assets/home.svg",
+  },
 ];
-
 export const statsCardsData: StatsCardProps[] = [
   {
-    image: leader,
+    image: "/assets/leader.svg",
     title: "Leader",
     description: "2hr per task",
     progressValue: 60,
     progressColor: '#F18D4B'
   },
   {
-    image: teamplayer,
+    image: "/assets/teamplayer.svg",
     title: "Team Player",
     description: "10/50 Drop-ins this week",
     progressValue: 20,
     progressColor: '#6FAEFC'
   },
   {
-    image: workaholic,
+    image: "/assets/workaholic.svg",
     title: "Workaholic",
     description: "2hr per task",
     progressValue: 80,
     progressColor: '#ADD359'
   },
   {
-    image: slacker,
+    image: "/assets/slacker.svg",
     title: "Slacker",
     description: "2hr per task",
     progressValue: 60,

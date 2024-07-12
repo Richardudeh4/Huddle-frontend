@@ -1,14 +1,12 @@
 import React from 'react';
-import Image, { StaticImageData } from 'next/image';
-import Frame1 from '@/assets/frame1.svg';
-import Frame2 from '@/assets/frame2.svg';
-import Frame3 from '@/assets/frame3.svg';
 import { Clock4, Star } from 'lucide-react';
+import Image from 'next/image';
+
 
 type User = {
     rank: number;
     stars: number;
-    image: StaticImageData;
+    image: string;
     time: string;
 };
 
@@ -17,16 +15,16 @@ type RanksProps = {
 };
 
 const Ranks: React.FC<RanksProps> = ({ users }) => {
-    const getBackgroundImage = (rank: number): StaticImageData => {
+    const getBackgroundImage = (rank: number): string => {
         switch (rank) {
             case 1:
-                return Frame1;
+                return "/assets/frame1.svg";
             case 2:
-                return Frame2;
+                return "/assets/frame2.svg";
             case 3:
-                return Frame3;
+                return "/assets/frame3.svg";
             default:
-                return Frame1;
+                return "/assets/frame1.svg";
         }
     };
 
@@ -38,7 +36,7 @@ const Ranks: React.FC<RanksProps> = ({ users }) => {
                     key={i}
                     className={`${i === 1 ? 'h-[250px]' : 'h-[220px]'} rounded-lg relative`}
                     style={{
-                        backgroundImage: `url(${getBackgroundImage(user.rank).src})`,
+                        backgroundImage: `url(${getBackgroundImage(user.rank)})`,
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}
@@ -49,6 +47,7 @@ const Ranks: React.FC<RanksProps> = ({ users }) => {
                         width={120}
                         height={120}
                         className='object-cover object-center rounded-full border-2 border-white absolute -top-14 left-1/2 -translate-x-1/2'
+                        loading='lazy'
                     />
                     <div className='mt-24'>
                         <p className='text-white text-xs text-center'>Average work quality</p>

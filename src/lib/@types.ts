@@ -14,7 +14,7 @@ export interface SidebarProps {
 }
 
 export interface StatsCardProps {
-  image: StaticImageData;
+  image: string;
   title: string;
   description: string;
   progressValue: number;

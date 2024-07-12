@@ -1,18 +1,18 @@
-import Challenges from "@/components/shared/challenges";
 import Sidebar from "@/components/shared/sidebar";
+import Notificationbar from "@/components/shared/notifcation-bar";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+
+export default function DashBoardLayout({
+    children,
+}: Readonly<{
+    children: React.ReactNode;
+}>) {
     return (
-        <main className="bg-custom-whitesmoke w-full flex h-screen">
-            <aside className="w-1/5 h-full overflow-y-auto scroll-hidden">
-                <Sidebar
-                    name="Esther Howard"
-                    email="mitchell.rivera@example.com"
-                    online={!false}
-                />
-            </aside>
-            <section className="w-3/5 h-full overflow-y-auto scroll-hidden">{children}</section>
-            <aside className="w-1/5 overflow-y-auto scroll-hidden h-full"><Challenges /></aside>
+
+        <main className="w-full h-full min-h-screen grid grid-cols-6 ">
+            <Sidebar />
+            <div className="col-span-4 ">{children}</div>
+            <Notificationbar />
         </main>
     );
 }

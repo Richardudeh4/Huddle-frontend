@@ -38,7 +38,7 @@ const PageDashboard: React.FC = () => {
                     <h1 className='font-bold text-slate-600 text-xl'>Today's task</h1>
                     <SlidersHorizontal size={18} color='#D9D9D9' className='cursor-pointer' />
                 </div>
-                <Card className='mt-5 p-4 border-none max-h-60 overflow-y-auto'>
+                <Card className='mt-5 p-4 border-none max-h-60 overflow-y-auto shadow-3d'>
                     {tasksData.map((task, index) => (
                         <TodaysTask key={index} task={task} />
                     ))}

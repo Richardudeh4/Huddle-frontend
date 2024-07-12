@@ -1,68 +1,106 @@
-import React from 'react';
-import profile from "@/assets/profileImage.svg";
-import pinterest from "@/assets/pinterest.svg";
-import dribble from "@/assets/dribbble.svg";
-import google from "@/assets/google.svg";
-import logo from "@/assets/logo.svg";
-import Image from 'next/image';
-import Link from 'next/link';
-import { sidebarLinks } from '@/data/data';
-import { SidebarItem, SidebarProps } from '@/lib/@types';
+import { cn } from "@/lib/utils";
+import { cva } from "class-variance-authority";
+import Image from "next/image";
+import Link from "next/link";
+import React, { FC, HTMLAttributes } from "react";
+import { Button } from "@/components/ui/button";
+import { Dribbble, Figma, Home } from "lucide-react";
+import { sideLinks } from "@/data/data";
 
-const imageLinks = [
-  { src: pinterest, width: 22, height: 22, alt: 'pinterest', url: "#" },
-  { src: dribble, width: 22, height: 22, alt: 'dribble', url: "#" },
-  { src: google, width: 22, height: 22, alt: 'google', url: "#" },
-];
-
-const Sidebar: React.FC<SidebarProps> = ({ name, email, online }) => {
+interface UserOnlineStatusProps extends HTMLAttributes<HTMLDivElement> {
+  isOnline: boolean;
+  statusText?: boolean;
+}
+const onlinestatusstyles = cva("flex items-center gap-2");
+export const UserOnlineStatus: FC<UserOnlineStatusProps> = ({
+  isOnline,
+  statusText,
+  className,
+}) => {
   return (
-    <section className='border-r-[1px] border-slate-300 py-8 px-6 md:px-4 sm:px-2'>
-      <div className='flex justify-center mb-20'>
-        <Image src={logo} width={100} height={100} alt='Huddle.io/logo' priority />
-      </div>
-      <nav className='bg-custom-purple mx-auto relative text-white mt-10 p-2 text-center rounded-lg shadow-3d w-[85%]'>
-        <figure className='mx-auto absolute -top-12 left-1/2 transform -translate-x-1/2 rounded-full h-[100px] w-[100px]'>
-          <Image src={profile} alt='Huddle.io user/profile' layout='fill' objectFit='cover' priority />
-        </figure>
-        <div className='flex mt-16 gap-2 justify-center'>
-          <span className={`inline-block mb-3 rounded-full h-2 w-2 ${online ? 'bg-custom-green' : 'bg-slate-300'}`}></span>
-          <span className='text-xs'>{online ? 'Online' : 'Offline'}</span>
-        </div>
-        <h1 className='username font-bold text-lg tracking-widest'>{name}</h1>
-        <p className='userEmail text-xs'>{email}</p>
+    <div className={cn(onlinestatusstyles({ className }))}>
+      {!isOnline ? (
+        <span className="w-2 h-2 bg-slate-200 rounded-full" />
+      ) : (
+        <span className="w-2 h-2 bg-green-500 rounded-full" />
+      )}
+      {statusText && (
+        <h6
+          className={`text-xs ${
+            !isOnline ? "text-slate-200" : "text-green-500"
+          }`}
+        >
+          {isOnline ? "Online" : "offline"}
+        </h6>
+      )}
+    </div>
+  );
+};
 
-        <div className='grid place-content-center'>
-          <ul className='space-y-8 mt-10 mb-6'>
-            {sidebarLinks.map((item: SidebarItem, index: number) => (
-              <Link key={index} href={item.href} className='flex items-center gap-3 w-full'>
-                <item.icon />
-                <li>{item.label}</li>
-              </Link>
-            ))}
-          </ul>
-        </div>
-      </nav>
-      <div className='mt-8 grid place-content-center'>
-        <div>
-          <p className='text-slate-400 text-sm'>Frequently used tools</p>
-          <div className='flex gap-2 mt-2'>
-            {imageLinks.map((image, index) => (
-              <Link key={index} href={image.url} target='_blank'>
-                <Image
-                  src={image.src}
-                  width={image.width}
-                  height={image.height}
-                  alt={image.alt}
-                  priority
-                />
+const Sidebar = () => {
+  return (
+    <section className="col-span-1 ring-1 ring-[#999999] flex items-start justify-center p-10">
+      <div className="w-full h-full flex flex-col gap-[40px] items-center">
+        <Link href={"/"}>
+          <Image src={"/assets/logo.svg"} alt="logo" width={100} height={50} />
+        </Link>
+
+        {/* huddle user bar */}
+        <div className="relative shadow-xl mt-[50px] w-full h-fit rounded-md bg-[#956FD6] px-[14px] py-[4px]">
+          <div className="-translate-y-[60%] w-full h-fit flex justify-center">
+            <Image
+              className="rounded-full shadow-xl"
+              width={100}
+              height={100}
+              src={"/assets/profileImage.svg"}
+              alt="user image"
+              loading="lazy"
+            />
+          </div>
+          <header className="w-full -translate-y-[40%] flex flex-col items-center gap-[4px]">
+            <UserOnlineStatus isOnline statusText />
+
+            <h1 className="text-[21px] text-[#FFFFFF] font-semibold">
+              Esther Howard
+            </h1>
+            <p className="font-normal text-[12px] leading-[16px] text-white">
+              michelle.rivera@example.com
+            </p>
+          </header>
+          {/* links */}
+          <div className="flex flex-col w-full h-fit gap-[24px] pb-[14px]">
+            {sideLinks.map((link, i) => (
+              <Link key={i} href={link.url}>
+                <Button
+                  className="text-white w-full hover:bg-[#EEAE05] hover:text-[#fff] text-[14px] gap-2 font-normal pl-[24px] justify-start"
+                  variant={"ghost"}
+                >
+                  <Image
+                    width={20}
+                    height={20}
+                    alt={link.text}
+                    src={`${link.icon}`}
+                  />
+                  <span>{link.text}</span>
+                </Button>{" "}
               </Link>
             ))}
           </div>
         </div>
+
+        {/* bar footer */}
+        <footer className="w-full p-[14px] flex flex-col gap-2">
+          <p className="font-normal text-[14px] leading-[20px] text-[#707070]">
+            Frequently used tools
+          </p>
+          <div className="flex items-center gap-2">
+            <Figma />
+            <Dribbble className="text-[#E94B88]" />
+          </div>
+        </footer>
       </div>
     </section>
   );
-}
+};
 
 export default Sidebar;
