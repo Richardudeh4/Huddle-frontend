@@ -9,7 +9,7 @@ import { sideLinks } from "@/data/data";
 
 interface UserOnlineStatusProps extends HTMLAttributes<HTMLDivElement> {
   isOnline: boolean;
-  statusText?: boolean;
+  statusText?: boolean | string;
 }
 const onlinestatusstyles = cva("flex items-center gap-2");
 export const UserOnlineStatus: FC<UserOnlineStatusProps> = ({
@@ -22,15 +22,15 @@ export const UserOnlineStatus: FC<UserOnlineStatusProps> = ({
       {!isOnline ? (
         <span className="w-2 h-2 bg-slate-200 rounded-full" />
       ) : (
-        <span className="w-2 h-2 bg-green-500 rounded-full" />
+        <span className="w-2 h-2 bg-[#ADD359] rounded-full" />
       )}
       {statusText && (
         <h6
           className={`text-xs ${
-            !isOnline ? "text-slate-200" : "text-green-500"
+            !isOnline ? "text-slate-200" : "text-[#ADD359]"
           }`}
         >
-          {isOnline ? "Online" : "offline"}
+          {isOnline ? "Online" : statusText}
         </h6>
       )}
     </div>
@@ -39,7 +39,7 @@ export const UserOnlineStatus: FC<UserOnlineStatusProps> = ({
 
 const Sidebar = () => {
   return (
-    <section className="col-span-1 ring-1 ring-[#999999] flex items-start justify-center p-10">
+    <section className="col-span-1 ring-1 ring-[#999999] flex items-start justify-center py-10 px-6 h-screen">
       <div className="w-full h-full flex flex-col gap-[40px] items-center">
         <Link href={"/"}>
           <Image src={"/assets/logo.svg"} alt="logo" width={100} height={50} />
@@ -47,7 +47,7 @@ const Sidebar = () => {
 
         {/* huddle user bar */}
         <div className="relative shadow-xl mt-[50px] w-full h-fit rounded-md bg-[#956FD6] px-[14px] py-[4px]">
-          <div className="-translate-y-[60%] w-full h-fit flex justify-center">
+          <div className="-translate-y-[60%] w-full h-fit flex justify-center ">
             <Image
               className="rounded-full shadow-xl"
               width={100}
@@ -57,13 +57,13 @@ const Sidebar = () => {
               loading="lazy"
             />
           </div>
-          <header className="w-full -translate-y-[40%] flex flex-col items-center gap-[4px]">
+          <header className="w-full -translate-y-[40%] flex flex-col items-center gap-[4px] px-8">
             <UserOnlineStatus isOnline statusText />
 
-            <h1 className="text-[21px] text-[#FFFFFF] font-semibold">
+            <h1 className="text-[21px] text-[#FFFFFF] font-semibold text-center">
               Esther Howard
             </h1>
-            <p className="font-normal text-[12px] leading-[16px] text-white">
+            <p className="font-normal text-[12px] leading-[16px] text-white text-center text-wrap">
               michelle.rivera@example.com
             </p>
           </header>
