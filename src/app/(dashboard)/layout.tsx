@@ -11,7 +11,7 @@ export default function DashBoardLayout({
 
         <main className="w-full h-full min-h-screen grid grid-cols-6 ">
             <Sidebar />
-            <div className="col-span-4 ">{children}</div>
+            <div className="col-span-4 px-16 pt-8 pb-10">{children}</div>
             <Notificationbar />
         </main>
     );

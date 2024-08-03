@@ -11,7 +11,7 @@ import TodaysTask from './todays-task';
 
 const PageDashboard: React.FC = () => {
     return (
-        <section className='pt-8 pb-10 px-12'>
+        <section className=''>
             <Header
                 name="Esther"
                 isInWorkroom={false}

@@ -17,7 +17,7 @@ const LeaderBoardPage: React.FC = () => {
     { rank: 3, stars: 2, image: "/assets/woman.svg", time: "4hrs :30min" },
   ];
   return (
-    <section className='pt-8 pb-10 px-12'>
+    <section className=''>
       <LeaderBoardHeader
         companyName='Atlassian Incoporated'
         teamName='Design Team'
