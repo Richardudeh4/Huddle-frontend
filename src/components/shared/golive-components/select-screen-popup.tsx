@@ -16,16 +16,6 @@ const SelectScreenPopup = () => {
     const { toast } = useToast();
     const { isSharing, startTime, endTime, duration } = useSelector((state: RootState) => state.screenShare);
 
-    useEffect(() => {
-        if (!isSharing && startTime && endTime) {
-            console.log(`Streaming ended. Displaying toast.`);
-            const start = new Date(startTime).toLocaleTimeString();
-            const end = new Date(endTime).toLocaleTimeString();
-            setGolive(false);
-            setActive(null);
-        }
-    }, [isSharing, startTime, endTime, duration, toast]);
-
     const handleSelectBox = (index: number) => {
         setActive(index);
         setGolive(true);
