@@ -18,12 +18,9 @@ const SelectScreenPopup = () => {
 
     useEffect(() => {
         if (!isSharing && startTime && endTime) {
+            console.log(`Streaming ended. Displaying toast.`);
             const start = new Date(startTime).toLocaleTimeString();
             const end = new Date(endTime).toLocaleTimeString();
-            toast({
-                title: "Streaming ended",
-                description: `Duration: ${Math.round(duration / 1000)} seconds\nStart: ${start}\nEnd: ${end}`,
-            });
             setGolive(false);
             setActive(null);
         }
@@ -104,7 +101,7 @@ const SelectScreenPopup = () => {
                     <div
                         key={index}
                         onClick={() => handleSelectBox(index)}
-                        className={`box bg-white hover:border-custom-purple border-2 cursor-pointer ${active === index ? 'border-custom-purple' : 'border-slate-500'} w-[8rem] h-[8rem] rounded-xl grid place-content-center ${active === index ? 'border-blue-500' : ''}`}
+                        className={`box w-[200px] h-[200px] text-xs bg-white hover:border-custom-purple border-2 cursor-pointer ${active === index ? 'border-custom-purple' : 'border-slate-500'} w-[8rem] h-[8rem] rounded-xl grid place-content-center ${active === index ? 'border-blue-500' : ''}`}
                     >
                         {box}
                     </div>
@@ -112,7 +109,7 @@ const SelectScreenPopup = () => {
             </div>
             <div className='flex justify-center items-center'>
                 <Button
-                    className={`text-center mx-auto ${golive ? 'bg-custom-yellow' : 'bg-slate-500'} w-[70%]`}
+                    className={`text-center mx-auto ${golive ? 'bg-custom-yellow' : 'bg-slate-500'} w-[50%]`}
                     disabled={!golive}
                     onClick={handleGoLive}
                 >

@@ -6,6 +6,7 @@ import { formatDate } from '@/lib/utils';
 import Image from 'next/image';
 import { Globe } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import Link from 'next/link';
 
 
 interface HeaderProps {
@@ -22,7 +23,7 @@ const users = [
 const Header: React.FC<HeaderProps> = ({ name, isInWorkroom, teamName, companyName }) => {
   return (
     <header>
-      <Card className={`border-0 p-0  flex flex-col md:flex-row items-end ${!isInWorkroom ? 'justify-between gap-0' : 'justify-start gap-10'} shadow-none`}>
+      <Card className={`border-0 p-0 bg-transparent  flex flex-col md:flex-row items-end ${!isInWorkroom ? 'justify-between gap-0' : 'justify-start gap-10'} shadow-none`}>
         <CardHeader className='p-0'>
           <p className={`text-md text-custom-semiBlack ${isInWorkroom ? 'font-bold' : 'font-semibold'}`}>
             {!isInWorkroom ? formatDate() : companyName}
@@ -57,8 +58,10 @@ const Header: React.FC<HeaderProps> = ({ name, isInWorkroom, teamName, companyNa
                 <p className='text-xs'>Your team mates are waiting for you</p>
               </div>
               <Button className='bg-custom-yellow text-xl shadow-md'>
+                <Link href={`workroom/join`} className='flex items-center'>
                 <span className='mr-2.5'><Globe size={10} /></span>
                 Join workroom
+                </Link>
               </Button>
             </>
           ) : (

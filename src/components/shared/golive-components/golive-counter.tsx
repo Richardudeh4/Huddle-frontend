@@ -6,7 +6,6 @@ import SelectScreenPopup from './select-screen-popup';
 
 const GoLiveCounter = () => {
     const { value, isVisible, countdownComplete } = useSelector((state: RootState) => state.counter);
-
     if (!isVisible) return null;
 
     return (
@@ -14,9 +13,9 @@ const GoLiveCounter = () => {
             <div className='bg-black opacity-50 absolute inset-0'></div>
             <div className='relative'>
                 {countdownComplete ? (
-                        <SelectScreenPopup />
+                    <SelectScreenPopup />
                 ) : (
-                    <h1 className='text-center font-extrabold text-white text-[7rem]'>{value}</h1>
+                   <div className='circle'><h1 className='text-center font-extrabold text-white text-[7rem]'>{value}</h1></div>
                 )}
             </div>
         </div>

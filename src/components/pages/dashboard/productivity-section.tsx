@@ -24,7 +24,7 @@ const TimeLogCardContent: React.FC<TimeLogCardContentProps> = ({ description, ic
 
 const ProductivityBadge: React.FC = () => {
     return (
-        <Card className='border-none rounded-md p-4 h-full shadow-3d'>
+        <Card className='border-none rounded-md p-4 h-full neo-effect'>
             <CardContent className='p-0 flex items-center gap-5'>
                 <Image src={"/assets/chess.svg"} alt='chess' width={30} height={30} />
                 <div>
@@ -42,7 +42,7 @@ const ProductivityBadge: React.FC = () => {
 
 const DailyTimeLog: React.FC = () => {
     return (
-        <Card className='border-none rounded-md p-4 grid grid-cols-3 h-full shadow-3d'>
+        <Card className='border-none rounded-md p-4 grid grid-cols-3 h-full neo-effect'>
             <TimeLogCardContent
                 description="Your points"
                 icon={Zap}

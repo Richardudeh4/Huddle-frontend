@@ -13,7 +13,9 @@ const GoliveButton = () => {
     };
 
     return (
-        <Button onClick={handleClick}>Go Live</Button>
+        <Button className="absolute -bottom-28 right-0 px-24 py-[8px] bg-[#EEAE05]" onClick={handleClick}>
+            Go live !
+        </Button>
     );
 }
 
