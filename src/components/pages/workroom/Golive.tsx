@@ -4,6 +4,7 @@ import { workroomMembers, workroomtasks } from "@/data/workroom";
 import { generateUniqueKey } from "@/lib/utils";
 import { Chip, ChipImage, ChipTitle } from "@/components/shared/Chip";
 import { Button } from "@/components/ui/button";
+
 import {
   Task,
   TaskActions,
@@ -13,6 +14,7 @@ import {
 } from "./Task";
 import { Zap } from "lucide-react";
 import { motion } from "framer-motion";
+import GoliveButton from "@/components/shared/golive-components/golive-button";
 
 type Props = {};
 
@@ -68,9 +70,7 @@ const Golive = (props: Props) => {
           );
         })}
       </div>
-      <Button className="absolute -bottom-28 right-0 px-24 py-[8px] bg-[#EEAE05]">
-        Go live !
-      </Button>
+      <GoliveButton />
     </motion.div>
   );
 };

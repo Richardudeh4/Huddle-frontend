@@ -16,7 +16,7 @@ const Challenges: React.FC = () => {
         </div>
       </div>
       <Separator className="border-b-[2px] border-slate-200 my-4" />
-      <Card className='relative border-0 p-3 mt-8 space-y-3 shadow-3d'>
+      <Card className='relative border-0 p-3 mt-8 space-y-3 neo-effect'>
         <div className="overlay"></div>
         {[1, 2, 3, 4].map((_, i) => (
           <ChallengeCard points={`+${10}`} key={i} />

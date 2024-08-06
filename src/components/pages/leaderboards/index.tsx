@@ -7,6 +7,7 @@ import { SlidersHorizontal } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Head from "next/head";
 
+
 const LeaderBoardPage: React.FC = () => {
   const users = [
     { rank: 1, stars: 3, image: "/assets/woman.svg", time: "4hrs :30min" },

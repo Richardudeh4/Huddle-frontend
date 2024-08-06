@@ -48,7 +48,7 @@ const PageDashboard: React.FC = () => {
             className="cursor-pointer"
           />
         </div>
-        <Card className="mt-5 p-4 border-none max-h-60 overflow-y-auto shadow-3d">
+        <Card className="mt-5 p-4 border-none max-h-60 overflow-y-auto neo-effect">
           {tasksData.map((task, index) => (
             <TodaysTask key={index} task={task} />
           ))}
