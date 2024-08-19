@@ -109,5 +109,4 @@ const SelectScreenPopup = () => {
         </Card>
     );
 };
-
 export default SelectScreenPopup;

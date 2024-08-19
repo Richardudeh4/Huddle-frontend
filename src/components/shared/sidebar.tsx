@@ -39,7 +39,7 @@ export const UserOnlineStatus: FC<UserOnlineStatusProps> = ({
 
 const Sidebar = () => {
   return (
-    <section className="col-span-1 ring-1 ring-[#999999] flex items-start justify-center py-10 px-6 h-screen">
+    <section className="col-span-1 ring-1 ring-[#999999] flex items-start justify-center py-10 px-6">
       <div className="w-full h-full flex flex-col gap-[40px] items-center">
         <Link href={"/"}>
           <Image src={"/assets/logo.svg"} alt="logo" width={100} height={50} />

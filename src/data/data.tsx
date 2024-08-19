@@ -1,5 +1,5 @@
 import { LayoutDashboard, WorkflowIcon, Group, Star, Joystick, LogOut } from 'lucide-react';
-import {StatsCardProps, TaskTodayProps, TopRanksProps } from "../lib/@types";
+import { StatsCardProps, TaskTodayProps, TopRanksProps } from "../lib/@types";
 
 
 export const sideLinks = [
@@ -14,9 +14,9 @@ export const sideLinks = [
     icon: "/assets/workroom.svg",
   },
   {
-    url: "/your-team",
-    text: "Your team",
-    icon: "/assets/your-team.svg",
+    url: "/friends",
+    text: "Friends",
+    icon: "/assets/friends.svg",
   },
   {
     url: "/leaderboards",
