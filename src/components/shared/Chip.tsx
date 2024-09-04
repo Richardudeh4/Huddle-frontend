@@ -41,7 +41,7 @@ function ChipTitle({
     <h2
       {...props}
       className={
-        "font-normal text-[18px] leading-[20px] text-black capitalize" +
+        "font-normal text-[18px] leading-[20px]  capitalize" +
         className
       }
     >
