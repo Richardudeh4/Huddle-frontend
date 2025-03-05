@@ -73,6 +73,9 @@ const config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      fontFamily: {
+        inria:["Inria Sans", "sans-serif"]
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

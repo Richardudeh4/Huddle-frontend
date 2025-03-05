@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ name, isInWorkroom, teamName, companyNa
             {!isInWorkroom ? formatDate() : companyName}
           </p>
           {!isInWorkroom ? (
-            <h1 className='text-3xl text-custom-semiBlack'>Welcome,<span className='font-semibold'> {name}</span></h1>
+            <h1 className='text-3xl text-custom-semiBlack'>Welcome,<span className='font-semibold'>{name}</span></h1>
           ) : (
             <h1 className='text-3xl text-custom-semiBlack font-semibold'>{teamName}</h1>
           )}

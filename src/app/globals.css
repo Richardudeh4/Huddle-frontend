@@ -66,6 +66,17 @@
   }
 }
 
+body {
+  font-family: 'Inria Sans', sans-serif;
+}
+
+@font-face {
+  font-family: Inria Sans;
+  src: url('../../public/fonts/inria-bold.ttf') format('ttf'),
+   url('../../public/fonts/inria-bold.ttf') format('ttf');
+  font-weight:700;
+  font-style: normal;
+}
 @layer base {
   * {
     @apply border-border;
