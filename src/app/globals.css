@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -150,4 +151,8 @@ body {
 .slide-out-active {
   transform: translateX(100%);
   transition: transform 0.3s ease-in-out;
+}
+
+task-text {
+  font-family: "Red Hat Text";
 }

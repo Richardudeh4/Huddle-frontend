@@ -5,17 +5,24 @@ import { Button } from "@/components/ui/button";
 import { getAuth } from "firebase/auth";
 import Link from "next/link";
 import Dashboard from "./(dashboard)/dashboard/page";
+import { useUserSession } from "@/contexts/useUserSession";
+import { redirect } from "next/navigation";
 
 
 export default function Home() {
- const auth = getAuth();
+  const {currentUser} = useUserSession();
 
- const user = auth.currentUser;
+  if(currentUser) {
+    redirect('/dashboard');
+  }
 
- if(user){
-  return <Dashboard/>
- }
+//  const auth = getAuth();
 
+//  const user = auth.currentUser;
+
+//  if(user){
+//   return <Dashboard/>
+//  }
   return (
     <div className="">
       <SignUp/>

@@ -8,6 +8,10 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../../../../config/firebase';
+import { toast } from "@/components/ui/use-toast";
+import { title } from 'process';
+import Link from 'next/link';
+// import { storeToken } from '@/utils';
 
 const SignIn = () => {
   const router = useRouter();
@@ -27,13 +31,12 @@ const SignIn = () => {
               }
           }
 
-    const handleSubmit = async (e:React.FormEvent) => {
+const handleSubmit = async (e:React.FormEvent) => {
       e.preventDefault();
       setLoading(true);
       setError(null);
-
       try {
-        const response = await fetch("https://hudddle-backend-plum.vercel.app/api/v1/auth/login",{
+        const response = await fetch("https://hudddle-backend.onrender.com/api/v1/auth/login",{
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -44,13 +47,16 @@ const SignIn = () => {
             }),
         });
         if (!response.ok) {
-          throw new Error("Failed to authenticate. Please check your credentials.");
+          throw new Error("Failed to authenticate. Please check your Email or password again");
       }
       const data = await response.json();
-      console.log("Success:", data); 
-      router.push('/dashboard');
+      console.log(data);
+      localStorage.setItem('token', data.access_token);
+      router.push('/onBoarding');
+      toast({
+        description: "Login Successfull",
+      });
       setLoading(true);
-      alert("Login successful!");
   } 
   catch (err: any) {
       setError(err.message);
@@ -66,13 +72,12 @@ const SignIn = () => {
         <div className=' justify-center items-center shadow-lg p-10 w-[539px] bg-[#FDFCFC] rounded-[12px] border border-transparent'>
             <div className='flex flex-col space-y-5'>
                 <h1 className='text-[36px] font-inter font-semibold text-center leading-[43.57px]'>Sign In</h1>
-                {/* //optional i will remove soon */}
-                {error && <p className="text-red-500 text-center">{error}</p>}
                 <form onSubmit={handleSubmit}>
                 <div className='flex flex-col space-y-8'>
                 <div>
                 <label>Email Address</label>
                 <Input 
+                disabled={loading}
                 type='text' 
                 value={emailAddress} 
                 placeholder='@gmail.com' 
@@ -84,15 +89,17 @@ const SignIn = () => {
                     </div>
                     <div>
                 <label className=''>Password</label>
-                <Input type="password" 
+                <Input 
+                disabled={loading}
+                type="password" 
                 placeholder='Enter password'
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} 
                 className='shadow-lg rounded-[26px] mb-8 placeholder-slate-300'
                 required
-             
                 />
                 </div>
+                <p className='text-center pt-9'>Don't have an account?{" "}<span className='text-violet-500 hover:text-violet-800 hover:underline'><Link href="/auth/Sign-up">Sign up</Link></span></p>
                 <Button type="submit" size={"sm"}  disabled={loading}  className='bg-[#5C5CE9] my-32 rounded-[8px]'>
                     { loading ? ( <h1>Logging In....</h1>) :
                      (<h1>Sign In</h1>)

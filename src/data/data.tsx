@@ -28,11 +28,11 @@ export const sideLinks = [
     text: "Your tasks",
     icon: "/assets/your-task.svg",
   },
-  {
-    url: "/",
-    text: "Clock out",
-    icon: "/assets/home.svg",
-  },
+  // {
+  //   url: "/",
+  //   text: "Clock out",
+  //   icon: "/assets/home.svg",
+  // },
 ];
 export const statsCardsData: StatsCardProps[] = [
   {

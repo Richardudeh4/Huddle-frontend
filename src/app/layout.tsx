@@ -2,9 +2,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
+import "@fontsource/red-hat-text";
+import "@fontsource/red-hat-text/400.css";
+import "@fontsource/red-hat-text/400-italic.css"; 
 import StoreProvider from "@/store/StoreProvider";
 import { Toaster } from "@/components/ui/toaster"
+// import { AuthContext } from "@/contexts/AuthContext";
 
 
 const inter = Inter({ subsets: ["latin"] });

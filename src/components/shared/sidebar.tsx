@@ -1,11 +1,15 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import Image from "next/image";
 import Link from "next/link";
 import React, { FC, HTMLAttributes } from "react";
 import { Button } from "@/components/ui/button";
-import { Dribbble, Figma, Home } from "lucide-react";
+import { Dribbble, Figma, Home, LogOut } from "lucide-react";
 import { sideLinks } from "@/data/data";
+import { useUserSession } from "@/contexts/useUserSession";
+import { useRouter } from "next/navigation";
+
 
 interface UserOnlineStatusProps extends HTMLAttributes<HTMLDivElement> {
   isOnline: boolean;
@@ -38,6 +42,8 @@ export const UserOnlineStatus: FC<UserOnlineStatusProps> = ({
 };
 
 const Sidebar = () => {
+  const router = useRouter();
+const {loading, error, currentUser, logout} = useUserSession();
   return (
     <section className="col-span-1 ring-1 ring-[#999999] flex items-start justify-center py-10 px-6">
       <div className="w-full h-full flex flex-col gap-[40px] items-center">
@@ -60,17 +66,17 @@ const Sidebar = () => {
           <header className="w-full -translate-y-[40%] flex flex-col items-center gap-[4px] px-8">
             <UserOnlineStatus isOnline statusText />
 
-            <h1 className="text-[21px] text-[#FFFFFF] font-semibold text-center">
-              Esther Howard
+            <h1 className="text-[21px] text-[#FFFFFF] font-semibold text-center truncate">
+              {currentUser?.first_name} {currentUser?.last_name}
             </h1>
-            <p className="font-normal text-[12px] leading-[16px] text-white text-center text-wrap">
-              michelle.rivera@example.com
+            <p className="font-normal text-[12px] leading-[16px] text-white text-center truncate text-wrap">
+            {currentUser?.email}
             </p>
           </header>
           {/* links */}
           <div className="flex flex-col w-full h-fit gap-[24px] pb-[14px]">
             {sideLinks.map((link, i) => (
-              <Link key={i} href={link.url}>
+              <Link key={i} href={link.url} >
                 <Button
                   className="text-white w-full hover:bg-[#EEAE05] hover:text-[#fff] text-[14px] gap-2 font-normal pl-[24px] justify-start"
                   variant={"ghost"}
@@ -85,6 +91,23 @@ const Sidebar = () => {
                 </Button>{" "}
               </Link>
             ))}
+            <Button
+            onClick={() => {
+              logout();
+              router.push("/auth/Sign-in");
+            }
+            }
+              className="text-white w-full hover:bg-[#EEAE05] hover:text-[#fff] text-[14px] gap-2 font-normal pl-[24px] justify-start"
+              variant={"ghost"}
+                >
+                  <Image
+                    width={20}
+                    height={20}
+                    alt="signout image"
+                    src=<LogOut/>
+                  />
+                  <span>Clock out</span>
+                </Button>{" "}
           </div>
         </div>
 

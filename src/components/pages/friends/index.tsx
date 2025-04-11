@@ -1,7 +1,10 @@
+"use client";
 import React from 'react';
 import FriendsHeader from './header';
 import FriendList from './friend-list';
 import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+import { useUserSession } from '@/contexts/useUserSession';
 
 
 export const metadata: Metadata = {
@@ -13,7 +16,12 @@ interface FriendsPageProps {
   page: number;
 }
 
+
 const FriendsPage: React.FC<FriendsPageProps> = ({ tab, page }) => {
+  const {currentUser, loading, error } = useUserSession();
+  if(!currentUser){
+    return redirect('/auth/Sign-in')
+  }
   return (
     <div className='pt-8 pb-10 px-12'>
       <FriendsHeader searchPage={false} />

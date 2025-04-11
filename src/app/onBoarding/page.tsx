@@ -1,8 +1,8 @@
 "use client";
 
 import { getAuth } from 'firebase/auth'
-import { useRouter } from 'next/navigation';
-import React from 'react'
+import { redirect, useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react'
 import { app } from '../../../config/firebase';
 import Image from 'next/image';
 import logo from "../../../public/assets/logo.svg";
@@ -31,6 +31,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Input } from '@/components/ui/input';
+import { useUserSession } from '@/contexts/useUserSession';
+import { getToken } from '@/contexts/useUserSession';
 
 const designerOption = [
   {tool: "Adobe Photoshop"},
@@ -68,6 +71,12 @@ const developerOption = [
 
 ]
 const FormSchema = z.object({
+  firstName: z.string().min(2, {
+    message: "Username must be at least 2 characters.",
+  }),
+  lastName: z.string().min(2, {
+    message: "Username must be at least 2 characters.",
+  }),
   occupation: z
     .string({
       required_error: "Please select the kind of user you are ",
@@ -83,33 +92,77 @@ const FormSchema = z.object({
 })
 
 const OnBoarding = () => {
-    const router = useRouter();
-    const auth = getAuth(app);
-    const user = auth.currentUser;
+  const [loading, setLoading] = useState<boolean>(false);
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [occupation, setOccupation] = useState<string>("developer");
+  const [awareness, setAwareness] = useState<string>("website");
+  const [software, setSoftware] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  const auth = getAuth(app);
+  const user = auth.currentUser;
 
-    if(!user){
-        router.push('/');
-    }
+  const { currentUser } = useUserSession();
+
+ if(currentUser?.first_name !== null){
+    redirect("/dashboard");
+ }
 
     const form = useForm<z.infer<typeof FormSchema>>({
       resolver: zodResolver(FormSchema),
     })
   
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-      toast({
-        title: "You submitted the following values:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
-      })
-    }
+   const onSubmit = async(data:z.infer<typeof FormSchema>) => {
+      setLoading(true);
+      setError(null);
+        try{
+          const token = getToken();
+          if(!token){
+            throw new Error("No access token found.");
+          }
+         console.log(token);
+
+          const onBoardingData = await fetch("https://hudddle-backend.onrender.com/api/v1/auth/update-profile", { 
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+               "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              first_name: data.firstName,
+              last_name: data.lastName,
+              user_type: data.occupation,
+              find_us: data.awareness, 
+              software_used: data.software,
+            }),
+          });
+          const responseData = await onBoardingData.json();
+          if (!onBoardingData.ok) {
+           console.log("Error", responseData);
+            // const errorResponse = await onBoardingData.json();
+            // throw new Error(`Failed to onBoard user ${errorResponse.message}`);
+          }
+          console.log("Current user", currentUser)
+          console.log("Response:", responseData);
+          router.push("/dashboard");
+      
+          toast({
+            title: "Profile Updated Successfully!",
+          });
+      }
+      catch(err){
+        console.log(err)
+      }
+      finally{
+        setLoading(false);
+      }
+  }
   return (
-    <div className='w-full max-h-screen overflow-hidden  bg-white'>
+    <div className='w-full min-h-screen bg-white'>
       <div className='flex justify-between items-center'>
       <div className='w-2/4 min-h-screen pl-32 bg-white'>
-        <div className='flex flex-col space-y-12'>
+        <div className='flex flex-col -mt-20 space-y-8'>
           <div>
             <Image src={logo} alt="huddle-logo" className='-mt-12'/>
           </div>
@@ -119,8 +172,32 @@ const OnBoarding = () => {
           </div>
           <div className='flex flex-col space-x-3'>
             {/* For the "What Kind of User are you " */}
-            <Form {...form}>
+        <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <div className="flex flex-row space-x-4">
+        <FormField
+        control={form.control}
+        name="firstName"
+        render={({field}) => (
+          <FormItem>
+            <FormLabel className="text-[#44546F] leading-[16px] text-[16px] font-light">First Name</FormLabel>
+            <Input {...field} type="text" placeholder="First Name"  className="w-full h-12 border border-[#E0E0E0] rounded-[8px] px-4" />
+            <FormMessage />
+          </FormItem>
+        )}
+        />
+        <FormField
+        control={form.control}
+        name="lastName"
+        render={({field}) => (
+          <FormItem>
+            <FormLabel className="text-[#44546F] leading-[16px] text-[16px] font-light">Last Name</FormLabel>
+            <Input {...field} disabled={loading} type="text" placeholder="Last Name" className="w-full h-12 border border-[#E0E0E0] rounded-[8px] px-4" />
+            <FormMessage />
+          </FormItem>
+        )}
+        />
+      </div>
         <FormField
           control={form.control}
           name="occupation"
@@ -130,7 +207,7 @@ const OnBoarding = () => {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Individual" className="placeholder-[#626F86]" />
+                    <SelectValue placeholder="Individual" className="placeholder-[#626F86]"/>
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -200,17 +277,19 @@ const OnBoarding = () => {
             </FormItem>
           )}
         />
-        <Button className='w-full' type="submit">Finish Setup</Button>
+        <Button className='w-full' type="submit">
+          {loading ? "Finishing setup..." : "Finish Setup"}
+          </Button>
       </form>
     </Form>
     </div>
         </div>
       </div>
-      <div className='relative'>
-        <Image src={onBoarding} alt="" className='z-[800px]'/>
-        <div className='absolute bottom-20 -translate-y-1/2 transform -translate-x-1/2  left-8'>
+      <div className='relative overflow-hidden'>
+      <div className='absolute bottom-20 -translate-y-1/2 transform -translate-x-1/2  left-8'>
         <text className='font-inria leading-[55px] text-[50px] font-bold text-[#fffff]'>Connect and work with friends</text>
         </div>
+        <Image src={onBoarding} alt="" className='z-[800px] min-h-screen'/>
        
       </div>
       </div>

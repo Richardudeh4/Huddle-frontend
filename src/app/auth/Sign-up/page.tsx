@@ -9,8 +9,11 @@ import { useRouter } from 'next/navigation';
 import { signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../../../../config/firebase';
 import Link from 'next/link';
+import { toast } from '../../../components/ui/use-toast';
+
 
 const SignUp = () => {
+
   const router = useRouter();
     const [emailAddress, setEmailAddress] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -21,6 +24,9 @@ const SignUp = () => {
     const SignInWithGoogle = async () => {
               try{
                   await signInWithPopup(auth,googleProvider);
+                  toast({
+                    description:"Account Created"
+                });
                   router.push('/onBoarding');
               }
               catch(err){
@@ -34,7 +40,7 @@ const SignUp = () => {
       setError(null);
 
       try {
-        const response = await fetch("https://hudddle-backend-plum.vercel.app/api/v1/auth/signup",{
+        const response = await fetch("https://hudddle-backend.onrender.com/api/v1/auth/signup",{
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -48,13 +54,21 @@ const SignUp = () => {
           throw new Error("Failed to authenticate. Please check your credentials.");
       }
       const data = await response.json();
-      console.log("Success:", data); 
+      console.log(data);
+      toast({
+        description: "Account Created, Please check your email to verify your account", 
+      });
       router.push('/auth/Sign-in');
+      
       setLoading(true);
-      alert("Account Created");
   } 
   catch (err: any) {
+    console.log(err.message);
+    toast({
+      description: "Failed to authenticate. Please check your credentials.", 
+    });
       setError(err.message);
+
   } finally {
       setLoading(false);
   }
@@ -68,7 +82,7 @@ const SignUp = () => {
             <div className='flex flex-col space-y-5'>
                 <h1 className='text-[36px] font-inter font-semibold text-center leading-[43.57px]'>Sign Up</h1>
                 {/* //optional i will remove soon */}
-                {error && <p className="text-red-500 text-center">{error}</p>}
+               
                 <form onSubmit={handleSubmit}>
                 <div className='flex flex-col space-y-8'>
                 <div>
