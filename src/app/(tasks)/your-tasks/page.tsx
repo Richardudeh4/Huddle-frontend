@@ -53,40 +53,63 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import TaskCategory from "./task-category";
+import TaskDuration from "./task-duration";
+import TaskTool from "./task-tool";
+import { useEffect, useState } from "react";
  
 
-
 const formSchema = z.object({
-  reccuringTask: z.enum(["yes", "no"], {
-    required_error: "Select if you want a reccuring task. ", 
+  recurringTask: z.enum(["yes", "no"], {
+    required_error: "Select if you want a reccuring task.", 
   }),
   taskName: z.string().min(2, {
     message: "Enter the name of your task"
-  })
+  }),
+  taskCategory: z.string().min(1, {message: "Select your task category"}),
+  taskDuration: z.string().min(1, {message: "Select task duration"}),
+  taskTool: z.string().min(1, {message: "Select your preferred tools"}),
 })
  
 
 
 const page = () => {
 
+  const [isSheetOpen, setIsSheetOpen] = React.useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-     reccuringTask: undefined,
+      recurringTask: "yes",
+      taskName: "",
+      taskCategory: "",
+      taskDuration: "",
+      taskTool: "",
     },
   })
- 
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const response = await fetch('https://hudddle-backend.onrender.com/api/v1/tasks/api/tasks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body:JSON.stringify(values),
+      });
+      
+      if (!response.ok) throw new Error();
+      form.reset(); 
+      setIsSheetOpen(false);
+    } catch (error) {
+          console.log(error);
+    }
   }
   const DialogClose = DialogPrimitive.Close
     const DialogTrigger = DialogPrimitive.Trigger
     const [date, setDate] = React.useState<Date>();
-    const currentDate = new Date(); // Get the current date
+    const currentDate = new Date(); 
     const formattedDate = format(currentDate, "MMMM dd, yyyy");
   return (
-   
     <div className='min-w-full flex px-8 flex-col'>
         <div className="w-full my-10 items-center flex justify-between">
                 <div className=''>
@@ -108,7 +131,7 @@ const page = () => {
             {/* Start of the create task sheet */}
             <Form  {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
-      <Sheet>
+      <Sheet  open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <SheetTrigger asChild>
         <Button className='flex space-x-2 bg-[#956FD6]'>
         <Plus size={24} color="white"/>
@@ -127,7 +150,7 @@ const page = () => {
         <div className="flex flex-row items-center space-x-2">
         <FormField
         control={form.control}
-        name="reccuringTask"
+        name="recurringTask"
         render={({field}) => (
           <FormItem>
             <FormLabel className="text-[#42526E] text-[15px]">Recurring Task?</FormLabel>
@@ -184,7 +207,20 @@ const page = () => {
         />
       </div>
     
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-2">
+        <FormField
+        control={form.control}
+        name="taskDuration"
+        render={({field}) => (
+          <FormItem>
+          <FormLabel>Task Duration</FormLabel>
+          <FormControl>
+           <TaskDuration/>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        )}
+        />
         <FormField
         control={form.control}
         name="taskCategory"
@@ -192,24 +228,31 @@ const page = () => {
           <FormItem>
           <FormLabel>Task Category</FormLabel>
           <FormControl>
-            <Input placeholder="Enter Task Name" {...field} />
+            <TaskCategory/>
           </FormControl>
           <FormMessage />
         </FormItem>
         )}
         />
-      <label>Task category</label>
-      <Input type="text" placeholder="Prototype the finance app " className="h-[55px] w-full"/>
-      </div>
-      <div className="flex flex-col gap-1">
-      <label>Task tool</label>
-      <Input type="text" placeholder="Prototype the finance app " className="h-[55px] w-full"/>
+        <FormField
+        control={form.control}
+        name="taskTool"
+        render={({field}) => (
+          <FormItem>
+          <FormLabel>Task Tool</FormLabel>
+          <FormControl>
+            <TaskTool/>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        )}
+        />
       </div>
   </div>
         <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
-          </SheetClose>
+            <Button type="submit" onClick={() => console.log("submitted")}>
+              {form.formState.isSubmitting ? "Creating Task" : "Add new Task"}
+            </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>
