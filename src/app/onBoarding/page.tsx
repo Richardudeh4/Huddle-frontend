@@ -35,41 +35,6 @@ import { Input } from '@/components/ui/input';
 import { useUserSession } from '@/contexts/useUserSession';
 import { getToken } from '@/contexts/useUserSession';
 
-const designerOption = [
-  {tool: "Adobe Photoshop"},
-  {tool: "Adobe Illustrator"},
-  {tool: "Adobe XD"},
-  {tool: "Blender"},
-  {tool: "Canva"},
-  {tool: "Figma"},
-  {tool: "Jira"},
-  {tool: "Procreate"},
-  {tool: "Sketch"},
-  {tool: "Slack"},
-]
- 
-const developerOption = [
-  {stack: "Visual Studio Code"},
-  {stack: "JetBrains IDEs"},
-  {stack: "Git"},
-  {stack: "GitHub"},
-  {stack: "GitLab"},
-  {stack: "Bitbucket"},
-  {stack: "HTML"},
-  {stack: "CSS"},
-  {stack: "Javascript"},
-  {stack: "React"},
-  {stack: "Angular"},
-  {stack: "Vue.js"},
-  {stack: "Bootstrap"},
-  {stack: "Tailwind CSS"},
-  {stack: "Node.js"},
-  {stack: "Python"},
-  {stack: "Java"},
-  {stack: "MySQL"},
-  {stack: "PostgreSQL"},
-
-]
 const FormSchema = z.object({
   firstName: z.string().min(2, {
     message: "Username must be at least 2 characters.",
@@ -93,11 +58,6 @@ const FormSchema = z.object({
 
 const OnBoarding = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [occupation, setOccupation] = useState<string>("developer");
-  const [awareness, setAwareness] = useState<string>("website");
-  const [software, setSoftware] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const auth = getAuth(app);
@@ -105,25 +65,36 @@ const OnBoarding = () => {
 
   const { currentUser } = useUserSession();
 
- if(currentUser?.first_name !== null){
-    redirect("/dashboard");
- }
+  useEffect(() => {
+    if (currentUser?.first_name && currentUser?.last_name) {
+      console.log("Profile already exists, redirecting to dashboard");
+      router.push("/dashboard");
+    }
+  }, [currentUser, router]);
 
-    const form = useForm<z.infer<typeof FormSchema>>({
-      resolver: zodResolver(FormSchema),
-    })
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      occupation: "Frontend Developer",
+      awareness: "Website", 
+      software: ""
+    }
+  })
   
    const onSubmit = async(data:z.infer<typeof FormSchema>) => {
       setLoading(true);
-      setError(null);
+      // setError(null);
         try{
           const token = getToken();
           if(!token){
             throw new Error("No access token found.");
           }
-         console.log(token);
 
-          const onBoardingData = await fetch("https://hudddle-backend.onrender.com/api/v1/auth/update-profile", { 
+          console.log(data);
+
+          const onBoardingData = await fetch("http://127.0.0.1:8000/api/v1/auth/update-profile", { 
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -134,7 +105,7 @@ const OnBoarding = () => {
               last_name: data.lastName,
               user_type: data.occupation,
               find_us: data.awareness, 
-              software_used: data.software,
+              software_used: data.software.split(',').map(item => item.trim()).filter(Boolean),
             }),
           });
           const responseData = await onBoardingData.json();
@@ -150,11 +121,15 @@ const OnBoarding = () => {
           toast({
             title: "Profile Updated Successfully!",
           });
-      }
-      catch(err){
-        console.log(err)
-      }
-      finally{
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An unknown error occurred");
+        console.error("Error:", err);
+        toast({
+          title: "Error",
+          description: err instanceof Error ? err.message : "Failed to update profile",
+          variant: "destructive"
+        });
+      } finally {
         setLoading(false);
       }
   }
@@ -211,9 +186,54 @@ const OnBoarding = () => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="developer">Developer</SelectItem>
-                  <SelectItem value="designer">Designer</SelectItem>
-                  <SelectItem value="projectManager">Project Manager</SelectItem>
+                  {/* Engineering */}
+                  <SelectGroup>
+                    <SelectLabel>Engineering</SelectLabel>
+                    <SelectItem value="frontend">Frontend Developer</SelectItem>
+                    <SelectItem value="backend">Backend Developer</SelectItem>
+                    <SelectItem value="fullstack">Fullstack Developer</SelectItem>
+                    <SelectItem value="mobile">Mobile Developer</SelectItem>
+                    <SelectItem value="devops">DevOps Engineer</SelectItem>
+                    <SelectItem value="qa">QA Engineer</SelectItem>
+                    <SelectItem value="embedded">Embedded Systems Engineer</SelectItem>
+                  </SelectGroup>
+
+                  {/* Design */}
+                  <SelectGroup>
+                    <SelectLabel>Design</SelectLabel>
+                    <SelectItem value="uxui">UX/UI Designer</SelectItem>
+                    <SelectItem value="product">Product Designer</SelectItem>
+                    <SelectItem value="graphic">Graphic Designer</SelectItem>
+                    <SelectItem value="motion">Motion Designer</SelectItem>
+                  </SelectGroup>
+
+                  {/* Data */}
+                  <SelectGroup>
+                    <SelectLabel>Data</SelectLabel>
+                    <SelectItem value="dataScience">Data Scientist</SelectItem>
+                    <SelectItem value="dataEngineer">Data Engineer</SelectItem>
+                    <SelectItem value="dataAnalyst">Data Analyst</SelectItem>
+                    <SelectItem value="mlEngineer">ML Engineer</SelectItem>
+                  </SelectGroup>
+
+                  {/* Management */}
+                  <SelectGroup>
+                    <SelectLabel>Management</SelectLabel>
+                    <SelectItem value="projectManager">Project Manager</SelectItem>
+                    <SelectItem value="productManager">Product Manager</SelectItem>
+                    <SelectItem value="engineeringManager">Engineering Manager</SelectItem>
+                    <SelectItem value="cto">CTO/Technical Director</SelectItem>
+                  </SelectGroup>
+
+                  {/* Other Tech */}
+                  <SelectGroup>
+                    <SelectLabel>Other Tech</SelectLabel>
+                    <SelectItem value="security">Security Engineer</SelectItem>
+                    <SelectItem value="sre">Site Reliability Engineer</SelectItem>
+                    <SelectItem value="cloud">Cloud Architect</SelectItem>
+                    <SelectItem value="blockchain">Blockchain Developer</SelectItem>
+                    <SelectItem value="game">Game Developer</SelectItem>
+                  </SelectGroup>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -246,35 +266,32 @@ const OnBoarding = () => {
         />
         <FormField
           control={form.control}
-          name="software"
+          name="softwareUsed"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-[#44546F] leading-[16px] text-[16px] font-light">What software do you use the most?</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Developer" className="placeholder-[#626F86]" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                <SelectGroup>
-          <SelectLabel  className='text-center text-[18px]'>Designers</SelectLabel>
-          {
-            designerOption.map((item, i) => (
-              <SelectItem key={i} value={item.tool}>{item.tool}</SelectItem>
-            ))
-          }
-          <SelectLabel className='text-center text-[18px]'> Developer</SelectLabel>
-          {
-            developerOption.map((item, i) => (
-              <SelectItem key={i} value={item.stack}>{item.stack}</SelectItem>
-            ))
-          }
-          </SelectGroup>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
+            <FormField
+              control={form.control}
+              name="software"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-[#44546F] leading-[16px] text-[16px] font-light">
+                    What software/s do you use the most?
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      value={field.value || ""}
+                      type="text"
+                      placeholder="e.g., Figma, VS Code, Jira"
+                      className="w-full h-12 border border-[#E0E0E0] rounded-[8px] px-4"
+                    />
+                  </FormControl>
+                  <FormDescription className="text-[#626F86] text-sm">
+                    Separate multiple tools with commas
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           )}
         />
         <Button className='w-full' type="submit">

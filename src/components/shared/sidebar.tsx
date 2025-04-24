@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import Image from "next/image";
@@ -43,7 +44,47 @@ export const UserOnlineStatus: FC<UserOnlineStatusProps> = ({
 
 const Sidebar = () => {
   const router = useRouter();
-const {loading, error, currentUser, logout} = useUserSession();
+  const {loading, error, currentUser, logout: logoutContext } = useUserSession();
+
+  const handleLogout = async () => {
+    const storedToken = localStorage.getItem('token');
+
+    if (!storedToken) {
+      logoutContext();
+      router.push("/auth/Sign-in");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/v1/auth/logout", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Logout failed:", errorData);
+        if (response.status === 401) {
+          logoutContext();
+          router.push('/auth/Sign-in');
+          return;
+        }
+        throw new Error(errorData.message || 'Logout failed');
+      }
+      
+      logoutContext();
+      router.push('/auth/Sign-in');
+    } catch (error) {
+      toast.error("Network Error", {
+        description: "Could not connect to the server",
+      });
+      console.error("Error during logout:", error);
+    } finally {
+      localStorage.removeItem('token');
+    }
+  };
   return (
     <section className="col-span-1 ring-1 ring-[#999999] flex items-start justify-center py-10 px-6">
       <div className="w-full h-full flex flex-col gap-[40px] items-center">
@@ -66,7 +107,7 @@ const {loading, error, currentUser, logout} = useUserSession();
           <header className="w-full -translate-y-[40%] flex flex-col items-center gap-[4px] px-8">
             <UserOnlineStatus isOnline statusText />
 
-            <h1 className="text-[21px] text-[#FFFFFF] font-semibold text-center truncate">
+            <h1 className="text-[#FFFFFF] font-semibold text-center" style={{ fontSize: 'clamp(16px, 2.5vw, 21px)' }}>
               {currentUser?.first_name} {currentUser?.last_name}
             </h1>
             <p className="font-normal text-[12px] leading-[16px] text-white text-center truncate text-wrap">
@@ -92,22 +133,18 @@ const {loading, error, currentUser, logout} = useUserSession();
               </Link>
             ))}
             <Button
-            onClick={() => {
-              logout();
-              router.push("/auth/Sign-in");
-            }
-            }
+              onClick={handleLogout}
               className="text-white w-full hover:bg-[#EEAE05] hover:text-[#fff] text-[14px] gap-2 font-normal pl-[24px] justify-start"
               variant={"ghost"}
-                >
-                  <Image
-                    width={20}
-                    height={20}
-                    alt="signout image"
-                    src=<LogOut/>
-                  />
-                  <span>Clock out</span>
-                </Button>{" "}
+            >
+              <Image
+                width={20}
+                height={20}
+                alt="signout image"
+                src={"/assets/home.svg"}
+              />
+              <span>Clock out</span>
+            </Button>{" "}
           </div>
         </div>
 

@@ -40,7 +40,7 @@ const SignUp = () => {
       setError(null);
 
       try {
-        const response = await fetch("https://hudddle-backend.onrender.com/api/v1/auth/signup",{
+        const response = await fetch("http://127.0.0.1:8000/api/v1/auth/signup",{
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -78,7 +78,7 @@ const SignUp = () => {
      <div className='flex w-full justify-between items-center flex-row'>
         <div className='w-2/3 bg-white justify-center items-center flex flex-col space-y-4 h-full'>
         <div className='flex items-center justify-center'>
-        <div className=' justify-center items-center shadow-lg p-10 w-[539px] bg-[#FDFCFC] rounded-[12px] border border-transparent'>
+        <div className=' justify-center items-center shadow-lg p-10 w-[539px] bg-[#ffffff] rounded-[5px] border border-transparent'>
             <div className='flex flex-col space-y-5'>
                 <h1 className='text-[36px] font-inter font-semibold text-center leading-[43.57px]'>Sign Up</h1>
                 {/* //optional i will remove soon */}
@@ -94,7 +94,7 @@ const SignUp = () => {
                 onChange={(e) => setEmailAddress(e.target.value)} 
                 required
                 
-                className='shadow-lg rounded-[26px]'
+                className='shadow-lg rounded-[10px]'
                 />
                     </div>
                     <div>
@@ -103,7 +103,7 @@ const SignUp = () => {
                 placeholder='Enter password'
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} 
-                className='shadow-lg rounded-[26px] mb-8 placeholder-slate-300'
+                className='shadow-lg rounded-[8px] mb-8 placeholder-slate-300'
                 required
              
                 />

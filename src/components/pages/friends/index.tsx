@@ -19,9 +19,6 @@ interface FriendsPageProps {
 
 const FriendsPage: React.FC<FriendsPageProps> = ({ tab, page }) => {
   const {currentUser, loading, error } = useUserSession();
-  if(!currentUser){
-    return redirect('/auth/Sign-in')
-  }
   return (
     <div className='pt-8 pb-10 px-12'>
       <FriendsHeader searchPage={false} />

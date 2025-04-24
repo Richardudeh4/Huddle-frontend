@@ -18,13 +18,15 @@ export const useUserSession = () => {
 
   useEffect(() => {
     const getCurrentUser = async () => {
+      const storedToken = getToken();
+      setToken(storedToken);
+
       if (!token) {
         setLoading(false);
-        console.log("No token found");
         return;
       }
       try {
-        const response = await fetch("https://hudddle-backend.onrender.com/api/v1/auth/me", {
+        const response = await fetch("http://127.0.0.1:8000/api/v1/auth/me", {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -36,7 +38,7 @@ export const useUserSession = () => {
           const errorResponse = await response.json();
           throw new Error(`${response.status} - ${errorResponse.message}`);
         }
-      const userData = await response.json();
+        const userData = await response.json();
         setCurrentUser(userData);
       } catch (err: any) {
         setError(err.message);
@@ -44,7 +46,7 @@ export const useUserSession = () => {
         setLoading(false);
       }
     };
-    if (token) getCurrentUser();
+    getCurrentUser();
   }, [token]);
 
   const logout = () => {
